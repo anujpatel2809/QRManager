@@ -32,7 +32,7 @@ public class QRService {
     public byte[] generateSignature(String data) throws ServiceException {
         try {
 
-            byte[] privateKeyEncoded = Files.readAllBytes(Paths.get("src/main/resources/keys/privatekey.key"));
+            byte[] privateKeyEncoded = Files.readAllBytes(Paths.get(getClass().getClassLoader().getResource("keys/privatekey.key").toURI()));
 
             PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(privateKeyEncoded);
             KeyFactory keyFactory = KeyFactory.getInstance("DSA", "SUN");
@@ -81,7 +81,7 @@ public class QRService {
     public ResponseEntity<Response> verifySignature(String data, byte[] digitalSignature) throws ServiceException {
         ResponseEntity<Response> responseResponseEntity=null;
         try {
-            byte[] publicKeyEncoded = Files.readAllBytes(Paths.get("src/main/resources/keys/publickey.key"));
+            byte[] publicKeyEncoded = Files.readAllBytes(Paths.get(getClass().getClassLoader().getResource("keys/publickey.key").toURI()));
 
             X509EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(publicKeyEncoded);
             KeyFactory keyFactory = KeyFactory.getInstance("DSA", "SUN");

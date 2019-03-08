@@ -10,10 +10,7 @@ import com.frenchfries.qrmanager.services.QRService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Base64;
@@ -33,6 +30,7 @@ public class QRController {
         this.qrService = qrService;
     }
 
+    @CrossOrigin
     @PostMapping(value = "/generate",produces = MediaType.IMAGE_PNG_VALUE)
     public byte[] generateQR(@RequestBody QRData qrData) throws JsonProcessingException, ServiceException {
         String data=OBJECT_MAPPER.writeValueAsString(qrData);
@@ -47,6 +45,7 @@ public class QRController {
         return qr;
     }
 
+    @CrossOrigin
     @PostMapping(value = "/verify",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> verifyQR(@RequestBody @Valid QRString qrString) throws ServiceException {
         String[] split = qrString.getQrString().split("-");
